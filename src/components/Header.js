@@ -2,9 +2,9 @@ function Header(){
 
 
     return (
-        <div>
-    
-        </div>
+        <header>
+            <h1> Phase 3 project!</h1>
+        </header>
     
     )
     

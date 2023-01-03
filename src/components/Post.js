@@ -1,29 +1,29 @@
-function Post({title, body, user, date,comments}){
+function Post({id, title, body, user, date, onDelete, comments}){
 
-    return (
-    <li>
-        <span className="user"> User Id {user}</span>
-        <br/>
+    function handleDeleteClick() {
+        fetch(`http://localhost:9292/posts/${id}`, {
+          method: "DELETE"
+        })
+        onDelete(id)
+      }
 
-        <br />
-        <span className="title">{title}</span>
-        <br/>
-
-        <br />
-        <span className="body">{body}</span>
-        <br/>
-
-        <br />
-        <span className="date"> {date}</span>
-
-        {/* <span className="comments"> {comments} </span> */}
-
-    </li>
+      // how to populate user now just user_id
+      // click on individual post and comments will show up below 
+      //comment component to edit comments and add comment
+      // make edit button
     
-    )
-
-}
-
-
-
+    return (
+        <li>
+         <span className="user" >user {user}</span>
+         <br />
+        <h3>{title}</h3>
+        <p>{body}</p>
+          <button onClick={handleDeleteClick}>Delete</button>
+          <br />
+          <br />
+          
+        </li>
+      );
+    }
+    
 export default Post

@@ -13,15 +13,23 @@ useEffect(() => {
 },[])
 
 
+function handleDeletePosts(id) {
+  const updatedPosts = posts.filter((post) => post.id !== id);
+  setPosts(updatedPosts);
+}
 
+
+function handleAddPost(newPost){
+  setPosts([...posts, newPost])
+}
 
 
   return (
     <div className="App">
-      <h1>Hello!</h1>
+ 
       <Header />
-      <NewPost />
-      <PostList posts={posts} />
+      <NewPost onAdd={handleAddPost} />
+      <PostList posts={posts} onDelete={handleDeletePosts} />
 
       
     </div>
