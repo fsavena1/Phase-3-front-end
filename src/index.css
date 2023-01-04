@@ -40,7 +40,7 @@
     border: 6px solid red;
   }
   
-  input[type="text"]::placeholder {
+  input[type="text"]::placeholder-shown {
     font-style: italic;
   }
   

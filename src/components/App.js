@@ -10,7 +10,10 @@ function App() {
   const [posts, setPosts] = useState([])
   const [users, setUsers] = useState([])
   const [isEditing, setIsEditing] = useState(false);
-  const [user, setUser] = useState(" ");
+  const [user, setUser] = useState(" ")
+  const [newUser, setNewUser] = useState(false)
+
+
 
 useEffect(() => {
   fetch("http://localhost:9292/posts")
@@ -26,18 +29,19 @@ useEffect(() => {
   .then(data => setUsers(data))
 }, [])
 
-// console.log(users)
+// const defaultUser = { user_id: users[0].id } 
+
+
 
 function addUser(newUser){
   setUsers([...users,newUser])
+  setNewUser(false)
 }
-
 
 function handleDeletePosts(id) {
   const updatedPosts = posts.filter((post) => post.id !== id);
   setPosts(updatedPosts);
 }
-
 
 function handleAddPost(newPost){
   setPosts([...posts, newPost])
@@ -51,23 +55,23 @@ function handlePostEdit(updatedPost){
     return post;
   });
   setPosts(updatedPosts);
-
 }
 
 function handleUpdatedPost(updatedPost) {
   handlePostEdit(updatedPost)
   setIsEditing(false)
-
 }
 
 function handleEditToggle(){
   setIsEditing(!isEditing);
 }
 
+function handleUserToggle(){
+  setNewUser(!newUser);
+}
+
 // figure out front end routes 
-
 // home route shows posts create user route post and comment route 
-
 // clicking on a post updates URL 
 
   return (
@@ -78,7 +82,7 @@ function handleEditToggle(){
       <Switch> */}
  
       {/* <Route exact path='/'> */}
-         <Header addUser={addUser} />
+         <Header addUser={addUser} handleUserToggle={handleUserToggle} newUser={newUser}/>
       {/* </Route> */}
 
       {/* <Route exact path='/newpost'> */}

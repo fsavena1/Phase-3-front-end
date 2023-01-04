@@ -12,7 +12,7 @@ function PostList({posts, onDelete, onEdit, isEditing, handleUpdatedPost}){
                 id={post.id}
                 title={post.title}
                 body={post.body}
-                user={post.user.id}
+                user={post.user.username}
                 date={post.created_at}
                 comments={post.comments}
                 onDelete={onDelete}

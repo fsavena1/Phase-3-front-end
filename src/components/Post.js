@@ -12,7 +12,7 @@ function Post({id, title, body, user, onDelete, onEdit, isEditing, handleUpdated
         onDelete(id)
       }
 
-      // how to populate user now just user_id
+     
 
 
       // click on individual post and comments will show up below 
@@ -22,7 +22,7 @@ function Post({id, title, body, user, onDelete, onEdit, isEditing, handleUpdated
     
     return (
         <li>
-         <span className="user" >user {user}</span>
+         <span className="user" >{user}</span>
          <br />
         <h3>{title}</h3>
         {isEditing ? (
