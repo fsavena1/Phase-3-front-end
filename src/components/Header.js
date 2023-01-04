@@ -25,8 +25,7 @@ function Header({addUser}){
           .then(newUser => addUser(newUser) )
       }
 
-    //   figure out return of create user 
-
+      // findout how to hide form and create new page when form is clicked
     
 
 

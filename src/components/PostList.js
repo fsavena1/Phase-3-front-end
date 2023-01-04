@@ -1,9 +1,9 @@
 import Post from "./Post";
 
 
-function PostList({posts, onDelete}){
+function PostList({posts, onDelete, onEdit, isEditing, handleUpdatedPost}){
 
-    console.log(posts)
+    // console.log(posts)
 
     const postCard = posts.map((post) => {
         return (
@@ -12,10 +12,15 @@ function PostList({posts, onDelete}){
                 id={post.id}
                 title={post.title}
                 body={post.body}
-                user={post.user_id}
+                user={post.user.id}
                 date={post.created_at}
                 comments={post.comments}
                 onDelete={onDelete}
+                onEdit={onEdit}
+                isEditing={isEditing}
+                handleUpdatedPost={handleUpdatedPost}
+                
+            
                 />
         )
     })
