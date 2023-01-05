@@ -1,104 +1,127 @@
 import React, { useEffect, useState } from "react";
-import Header from "./Header"
-import PostList from "./PostList"
-import NewPost from "./NewPost"
-// import ShowComments from "./ShowComments";
-// import NavBar from "./NavBar"
-// import { Route, Switch } from 'react-router-dom';
+import Header from "./Header";
+import PostList from "./PostList";
+import NewPost from "./NewPost";
+import ShowComments from "./ShowComments"
+import { Route, Routes } from "react-router-dom";
 
 function App() {
-  const [posts, setPosts] = useState([])
-  const [users, setUsers] = useState([])
+  const [posts, setPosts] = useState([]);
+  const [users, setUsers] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [user, setUser] = useState(" ")
-  const [newUser, setNewUser] = useState(false)
+  const [user, setUser] = useState(" ");
+  const [newUser, setNewUser] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState(false);
+
+  useEffect(() => {
+    fetch("http://localhost:9292/posts")
+      .then((res) => res.json())
+      .then((data) => setPosts(data));
+  }, []);
+
+  useEffect(() => {
+    fetch("http://localhost:9292/users")
+      .then((res) => res.json())
+      .then((data) => setUsers(data));
+  }, []);
 
 
+  useEffect(() => {
+    fetch("http://localhost:9292/comments")
+      .then((res) => res.json())
+      .then((data) => setComments(data));
+  }, []);
 
-useEffect(() => {
-  fetch("http://localhost:9292/posts")
-  .then(res => res.json())
-  .then(data => setPosts(data))
-},[])
+  function addComment(comment){
+    setComments(...comments, comment)
+    setNewComment(false)
+  }
 
+  function handleCommentToggle() {
+    setNewComment(!newComment)
+  }
 
+  function addUser(newUser) {
+    setUsers([...users, newUser]);
+    setNewUser(false);
+  }
 
-useEffect(() => {
-  fetch("http://localhost:9292/users")
-  .then(res => res.json())
-  .then(data => setUsers(data))
-}, [])
+   function handleUserToggle() {
+    setNewUser(!newUser);
+  }
 
-// const defaultUser = { user_id: users[0].id } 
+  function handleDeletePosts(id) {
+    const updatedPosts = posts.filter((post) => post.id !== id);
+    setPosts(updatedPosts);
+  }
 
+  function handleAddPost(newPost) {
+    setPosts([...posts, newPost]);
+  }
 
+  function handlePostEdit(updatedPost) {
+    const updatedPosts = posts.map((post) => {
+      if (post.id === updatedPost.id) {
+        return updatedPost;
+      }
+      return post;
+    });
+    setPosts(updatedPosts);
+  }
 
-function addUser(newUser){
-  setUsers([...users,newUser])
-  setNewUser(false)
-}
+  function handleUpdatedPost(updatedPost) {
+    handlePostEdit(updatedPost);
+    setIsEditing(false);
+  }
 
-function handleDeletePosts(id) {
-  const updatedPosts = posts.filter((post) => post.id !== id);
-  setPosts(updatedPosts);
-}
+  function handleEditToggle() {
+    setIsEditing(!isEditing);
+  }
 
-function handleAddPost(newPost){
-  setPosts([...posts, newPost])
-}
-
-function handlePostEdit(updatedPost){
-  const updatedPosts = posts.map((post) => {
-    if(post.id === updatedPost.id){
-      return updatedPost;
-    }
-    return post;
-  });
-  setPosts(updatedPosts);
-}
-
-function handleUpdatedPost(updatedPost) {
-  handlePostEdit(updatedPost)
-  setIsEditing(false)
-}
-
-function handleEditToggle(){
-  setIsEditing(!isEditing);
-}
-
-function handleUserToggle(){
-  setNewUser(!newUser);
-}
-
-// figure out front end routes 
-// home route shows posts create user route post and comment route 
-// clicking on a post updates URL 
 
   return (
     <div className="App">
-{/* 
-      <NavBar />
+     
 
-      <Switch> */}
- 
-      {/* <Route exact path='/'> */}
-         <Header addUser={addUser} handleUserToggle={handleUserToggle} newUser={newUser}/>
-      {/* </Route> */}
+      <Header
+              addUser={addUser}
+              handleUserToggle={handleUserToggle}
+              newUser={newUser}
+            />
 
-      {/* <Route exact path='/newpost'> */}
-         <NewPost onAdd={handleAddPost}  users={users} setUser={setUser}/>
-      {/* </Route> */}
-
-   
-
-      {/* <ShowComments posts={posts} /> */}
-
-      {/* <Route exact path='/post'> */}
-           <PostList posts={posts} onDelete={handleDeletePosts}  isEditing={isEditing} handleUpdatedPost={handleUpdatedPost} onEdit={handleEditToggle} />
-      {/* </Route>
-
-      </Switch> */}
+      <Routes>
       
+        <Route
+          exact
+          path="/"
+          element={
+            <div>
+              <NewPost onAdd={handleAddPost} users={users} setUser={setUser} /> 
+              <PostList
+              posts={posts}
+              onDelete={handleDeletePosts}
+              isEditing={isEditing}
+              handleUpdatedPost={handleUpdatedPost}
+              onEdit={handleEditToggle}
+            />
+              </div>
+          
+          }
+        />
+
+        <Route 
+        exact path ="/post/:id"
+        element={
+        <ShowComments
+        handleCommentToggle={handleCommentToggle}
+        addComment={addComment}
+        newComment={newComment}
+        users={users}
+        
+        />} 
+        />
+      </Routes>
     </div>
   );
 }

@@ -27,8 +27,6 @@ function NewPost({ onAdd, users }) {
   }
 
 
-
-
   return (
     <form className="new-post" onSubmit={handleSubmit}>
       

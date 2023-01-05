@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import EditPost from "./EditPost";
+import {useNavigate} from "react-router-dom"
 
 function Post({id, title, body, user, onDelete, onEdit, isEditing, handleUpdatedPost}){
  
@@ -12,7 +13,7 @@ function Post({id, title, body, user, onDelete, onEdit, isEditing, handleUpdated
         onDelete(id)
       }
 
-     
+     let navigate = useNavigate()
 
 
       // click on individual post and comments will show up below 
@@ -21,7 +22,7 @@ function Post({id, title, body, user, onDelete, onEdit, isEditing, handleUpdated
       
     
     return (
-        <li>
+        <li >
          <span className="user" >{user}</span>
          <br />
         <h3>{title}</h3>
@@ -37,7 +38,8 @@ function Post({id, title, body, user, onDelete, onEdit, isEditing, handleUpdated
         
 
         <button onClick={onEdit}>Edit</button>
-          <button onClick={handleDeleteClick}>Delete</button>
+        <button onClick={handleDeleteClick}>Delete</button>
+        <button onClick={() => navigate(`/post/${id}`) }>View post</button>
           <br />
           <br />
           
