@@ -38,6 +38,8 @@ function App() {
     setNewComment(false)
   }
 
+
+
   function handleCommentToggle() {
     setNewComment(!newComment)
   }
@@ -97,7 +99,7 @@ function App() {
           path="/"
           element={
             <div>
-              <NewPost onAdd={handleAddPost} users={users} setUser={setUser} /> 
+              <NewPost onAdd={handleAddPost} users={users}  /> 
               <PostList
               posts={posts}
               onDelete={handleDeletePosts}

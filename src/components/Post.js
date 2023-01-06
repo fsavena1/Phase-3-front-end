@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import EditPost from "./EditPost";
 import {useNavigate} from "react-router-dom"
 
@@ -16,8 +15,6 @@ function Post({id, title, body, user, onDelete, onEdit, isEditing, handleUpdated
      let navigate = useNavigate()
 
 
-      // click on individual post and comments will show up below 
-      //comment component to edit comments and add comment
 
       
     

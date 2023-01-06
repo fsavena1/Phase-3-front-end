@@ -143,5 +143,10 @@
   form.new-post {
     display: flex;
   }
+
+  .comment-div{
+    display: flex;
+    gap: 1rem;
+  }
   
 

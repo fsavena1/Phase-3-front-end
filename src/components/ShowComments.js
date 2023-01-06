@@ -4,9 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 function ShowComments({ handleCommentToggle, newComment, addComment, users }) {
   const [indPost, setIndPost] = useState(null);
-  const [commnetBody , setCommentBody] = useState("")
+  const [commnetBody, setCommentBody] = useState("");
   const [userID, setUserID] = useState(1);
- 
 
   const { id } = useParams();
 
@@ -16,7 +15,7 @@ function ShowComments({ handleCommentToggle, newComment, addComment, users }) {
       .then((data) => setIndPost(data));
   }, [id]);
 
-    function handleSubmit(e) {
+  function handleSubmitComment(e) {
     e.preventDefault();
 
     fetch("http://localhost:9292/comments", {
@@ -28,19 +27,23 @@ function ShowComments({ handleCommentToggle, newComment, addComment, users }) {
         body: commnetBody,
         user_id: userID,
         post_id: indPost.id,
-      
       }),
     })
       .then((res) => res.json())
       .then((newComment) => addComment(newComment));
   }
 
-console.log(indPost)
-
-// setPostID = indPost.id
-
+  // console.log(indPost?.comments)
 
   const nav = useNavigate();
+
+
+
+   const newArray = indPost?.comments.map(comment =>  <p key={comment.id}> {comment.body}</p>);
+
+   const newArray1 = indPost?.comments.map(comment =>  <p key={comment.id}> - {comment.user.username}</p>);
+  
+  
 
   return (
     <ul>
@@ -48,15 +51,15 @@ console.log(indPost)
         <h1>{indPost?.user_id}</h1>
         <h2>{indPost?.title}</h2>
         <h3>{indPost?.body}</h3>
+        <div className="comment-div">
 
-        {indPost?.comments.map((comment) => {
-          <p key={comment.id}> {comment.body}</p>;
-          // commnet username in map? {comment.user.username}
-        })}
+          <p> {newArray1}</p>
+          <p> {newArray}</p>
 
+        </div>
+        
         {newComment ? (
-          <form className="new-comment" onSubmit={handleSubmit}>
-      
+          <form className="new-comment" onSubmit={handleSubmitComment}>
             <select onChange={(e) => setUserID(e.target.value)}>
               {users.map((user) => (
                 <option key={user.id} id={user.id} value={user.id}>
@@ -64,7 +67,11 @@ console.log(indPost)
                 </option>
               ))}
             </select>
-            <input type="text" placeholder="body" onChange={e => setCommentBody(e.target.value)} />
+            <input
+              type="text"
+              placeholder="comment"
+              onChange={(e) => setCommentBody(e.target.value)}
+            />
             <input type="submit" value="Save" />
           </form>
         ) : null}
